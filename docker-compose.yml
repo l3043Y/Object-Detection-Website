@@ -1,7 +1,10 @@
 version: "3.7"
 
 services: 
-    fyp:
+    FYP:
         image: fyp-objdetweb
         ports:
             - 80:80
+        working_dir: /FYP
+        volumes: 
+            - ./archive/docker-volume:/FYP/uploads
