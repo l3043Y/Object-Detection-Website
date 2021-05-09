@@ -1,8 +1,9 @@
 FROM ultralytics/yolov5
 
-COPY . /fyp
+LABEL key="OBJECT DETECTION WEBSITE" 
+
+COPY . /FYP
 RUN pip install flask
 
-
-WORKDIR /fyp
-CMD python /fyp/main.py
+WORKDIR /FYP
+ENTRYPOINT ["python", "main.py", "docker" ]
