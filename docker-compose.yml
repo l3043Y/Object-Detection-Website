@@ -1,0 +1,7 @@
+version: "3.7"
+
+services: 
+    fyp:
+        image: fyp-objdetweb
+        ports:
+            - 80:80

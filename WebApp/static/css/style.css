@@ -1,0 +1,221 @@
+:root{
+  --sideDiv-min-width: 300px;
+  --sideDIv-margin: 15px;
+  --ui-width : 415px;
+  --img-size-multiplier: 0.70;
+  --border-radius: 10px;
+  --ui-height: 370px;
+  --font-color:#0c3214;
+  font-family: 'Montserrat', sans-serif;
+}
+body {
+  background-color: whitesmoke;
+  background-image: linear-gradient( rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1) ), url("../images/objectdetection.svg");
+  background-position: center;
+  border-bottom: 0px solid black;
+  height: auto;
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  flex-direction: column;
+}
+
+/* Title */
+#title-center{
+  position: relative;
+  margin: 3vh auto;
+  width: 400px;
+  padding: 10px;
+  box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+  background-color: white;
+
+  font-family: 'Montserrat', sans-serif;
+  font-size: 35px;
+  text-align: center;
+  color: var(--font-color);
+
+  border-radius: 10px;
+  vertical-align: top;
+  
+}
+#subheading{
+  flex: 0 0 content;
+  color: var(--font-color);
+  display: inline-block;
+  text-align: center;
+  padding: 0.5em;
+  border-radius: 10px;
+  margin: 3vh auto;
+
+  background-color: rgba(218, 248, 224, 0.479); 
+  box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22); 
+  backdrop-filter: blur(5px);
+}
+
+.side-div-container{ 
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex: 1 1 auto;
+}
+.side-div{
+
+  display: flex;
+  flex-direction: column;
+  justify-content:start;
+  align-items:center;
+
+  width:500px;
+  height:auto;
+}
+
+
+/* Card */
+.card-col{
+  display: flex;
+  height: 470px;
+  width: 490px; 
+  overflow-y: auto;
+  flex-direction: column;
+  align-items: center;
+}
+.card-body{
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+  justify-content:center;
+  width: 415px;
+  height: 370px;
+  border-radius: var(--border-radius);
+  margin: 2.4vh;
+  background-color: rgb(255, 255, 255); 
+  box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22); 
+  backdrop-filter: blur(5px);
+}
+
+.card-body-nth{
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+  justify-content:center;
+  width: 415px;
+  height: 370px;
+  border-radius: var(--border-radius);
+  margin: 2.4vh;
+  background-color: rgba(255, 255, 255, 0.178); 
+  box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22); 
+  backdrop-filter: blur(5px);
+}
+.card-img{
+  width: calc(var(--img-size-multiplier)*416px);
+  height: calc(var(--img-size-multiplier)*416px);
+}
+.card-text{
+  /* background-color: aqua; */
+  color: var(--font-color);;
+  padding: 0.2em;
+  margin: 0.002rem;
+}
+/* === Wrapper Styles === */
+#FileUpload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.wrapper {
+  margin: 2.4vh;
+  padding: 10px;
+  box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+  border-radius: 10px;
+  background-color: white;
+  width: 415px;
+}
+
+/* === Upload Box === */
+.upload {
+  margin: 10px;
+  height: 250px;
+  border: 4px dashed #e6f5e9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+}
+.upload p {
+  margin-top: 12px;
+  line-height: 0;
+  font-size: 22px;
+  color: #0c3214;
+  letter-spacing: 1.5px;
+}
+.upload__button {
+  background-color: #e6f5e9;
+  border-radius: 10px;
+  padding: 0px 8px 0px 10px;
+}
+.upload__button:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+/* === Uploaded Files === */
+.uploaded {
+  width: 375px;
+  margin: 10px;
+  background-color: #e6f5e9;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+.file {
+  display: flex;
+  flex-direction: column;
+}
+.file__name {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 300px;
+  line-height: 0;
+  color: #0c3214;
+  font-size: 18px;
+  letter-spacing: 1.5px;
+}
+.fa-times:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+.fa-file-image {
+  padding: 15px;
+  font-size: 40px;
+  color: #0c3214;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px rgba(177, 177, 177, 0.514); 
+  border-radius: 10px;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(163, 163, 163, 0.363); 
+  border-radius: 10px;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #ffffffb7; 
+}
+
+input[type="file"] {
+  display: none;
+}
+
