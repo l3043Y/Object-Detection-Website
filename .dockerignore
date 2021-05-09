@@ -5,4 +5,7 @@ __pycache__
 archive/
 uploads/
 
+# ignore unnessarry file
 *.bat
+*.jpg
+*.jpeg
