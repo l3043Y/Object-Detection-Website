@@ -1,30 +1,32 @@
 $(function(){
     // $('#card-col-id').css("border", "3px solid red");
     // console.log(!$('#card-col-id').children().length > 0 )
+    
 
     if( !$('#card-col-id').children().length > 0 ) {
             var emptyCard = '<div class="card-body-nth">  <p class="card-text">Nothing to show</p> </div>'
-            $('.card-col').append(emptyCard).show('slow')
+            $('.card-col').append(emptyCard)
         }
 
 
     var fileUploadSuccess = function(data){      
-        // console.log("data: ");
-        // console.dir(data);
-        // console.dir(data[0].ResultText);
-        var cardContainer = $('#card-col-id');
-        var nthCard = '.card-body-nth';
-        if( cardContainer.children(nthCard).length > 0 ){
-            $(nthCard).remove();
+        var $cardContainer = $('#card-col-id');
+        // Remove nothing card
+        var $nthCard = $('.card-body-nth');
+        if( $cardContainer.children($nthCard).length > 0 ){
+            $nthCard.remove();
         }
-
-        var cardToBeAdd =   '<div class="card-body">' +
+        // Add card with data
+        var $cardToBeAdd =   $('<div class="card-body">' +
                             '   <p class="card-text"> Date: 2021-04-15, 22:38</p>' +  
                             '   <img class="card-img" src="data:image/jpg;base64, '+ data.Base64img+ '" >' + 
                             '   <p class="card-text">   Class Label:'+data.ResultText+ '</p>' + 
-                            '</div>';
-        
-        cardContainer.prepend(cardToBeAdd);
+                            '</div>').hide();
+        $cardContainer.prepend($cardToBeAdd);
+        // Scroll & show animation 
+        var $firstCard = $('.card-body').eq(0)
+        $firstCard.show(500);
+        $('.card-col').animate({scrollTop: $('.card-body').height()}, 300);
     };
 
     var fileUploadFail = function(data){};

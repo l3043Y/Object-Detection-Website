@@ -79,6 +79,7 @@ body {
   overflow-y: auto;
   flex-direction: column;
   align-items: center;
+  scroll-behavior: smooth
 }
 .card-body{
   display: flex;

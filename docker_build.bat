@@ -2,4 +2,4 @@
 echo "docker: building..."
 docker build -t fyp-objdetweb:latest .
 echo "docker: running..."
-docker run -dp 80:80 -w /FYP -v "%CD%\docker-volume":/FYP/uploads fyp-objdetweb
+docker run -dp 80:80 -w /FYP -v "%CD%\uploads":/FYP/uploads fyp-objdetweb
