@@ -22,6 +22,9 @@ docker run -dp 80:80 -w /FYP -v "%CD%\uploads":/FYP/uploads fyp-objdetweb
 ```
 #### Option 3. Python development environment 
 Anaconda virtual environment is recommended to install packages.
+
+
+**Install [PyTorch](https://pytorch.org/get-started/locally/#start-locally)**
 ```
 pip install -r requirements.txt
 git clone https://github.com/l3043Y/Object-Detection-Website.git
