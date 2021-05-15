@@ -49,7 +49,7 @@ $(function(){
                         + d.getMinutes() + ":"
                         + d.getSeconds();
         var $cardToBeAdd =   $('<div class="card-bodyy">' +
-                            '   <div style="text-align: center;margin: 0.5em;">'+timeStamp+'</div>' +  
+                            '   <div style="text-align: center;margin: 0.5em;">'+ d.toLocaleString()+'</div>' +  
                             '   <img class="card-img" src="data:image/jpg;base64, '+ data.Base64img+ '">' + 
                             '   <div class="cardd-text">'+data.ResultText+'</div>' + 
                             '</div>').hide();
