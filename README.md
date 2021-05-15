@@ -1,4 +1,4 @@
-## [Object-Detection-Website](https://github.com/l3043Y/Object-Detection-Website)
+## [Object Detection Website](https://github.com/l3043Y/Object-Detection-Website)
 Object detection is a computer-vision tasks that make many complex applications involving perception of the surrouding environment archivable. This object detection website is an experiment aimming at developing a website which can upload images and detect the objects on the pictures.
 * **Object detection module:** [ultralytics/yolov5](https://github.com/ultralytics/yolov5)
 * **Docker Image:** [l3043y/fyp-objdetweb](https://hub.docker.com/repository/registry-1.docker.io/l3043y/fyp-objdetweb/)

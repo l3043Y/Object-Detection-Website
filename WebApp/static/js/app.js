@@ -29,7 +29,7 @@ $(function(){
     
 
     if( !$('#card-col-id').children().length > 0 ) {
-            var emptyCard = '<div class="card-body-nth">  <p class="card-text">Nothing to show</p> </div>'
+            var emptyCard = '<div class="card-body-nth">  <p class="cardd-text">Nothing to show</p> </div>'
             $('.card-col').append(emptyCard)
         }
 
@@ -41,16 +41,23 @@ $(function(){
             $nthCard.remove();
         }
         // Add card with data
-        var $cardToBeAdd =   $('<div class="card-body">' +
-                            '   <p class="card-text"> Date: 2021-04-15, 22:38</p>' +  
-                            '   <img class="card-img" src="data:image/jpg;base64, '+ data.Base64img+ '" >' + 
-                            '   <p class="card-text">   Class Label:'+data.ResultText+ '</p>' + 
+        var d = new Date();
+        var timeStamp = d.getFullYear() + '-'
+                        + d.getMonth() + '-'
+                        + d.getDay() + ' '
+                        + d.getHours() + ":" 
+                        + d.getMinutes() + ":"
+                        + d.getSeconds();
+        var $cardToBeAdd =   $('<div class="card-bodyy">' +
+                            '   <div style="text-align: center;margin: 0.5em;">'+timeStamp+'</div>' +  
+                            '   <img class="card-img" src="data:image/jpg;base64, '+ data.Base64img+ '">' + 
+                            '   <div class="cardd-text">'+data.ResultText+'</div>' + 
                             '</div>').hide();
         $cardContainer.prepend($cardToBeAdd);
         // Scroll & show animation 
-        var $firstCard = $('.card-body').eq(0)
+        var $firstCard = $('.card-bodyy').eq(0)
         $firstCard.slideDown(400);
-        $('.card-col').animate({scrollTop: $('.card-body').height()}, 400);
+        $('.card-col').animate({scrollTop: $('.card-bodyy').height()}, 400);
     };
 
     var fileUploadFail = function(data){};

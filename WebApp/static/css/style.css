@@ -104,16 +104,18 @@ body {
   overflow-y: auto;
   flex-direction: column;
   align-items: center;
-  scroll-behavior: smooth
+  scroll-behavior: smooth;
 }
 
-.card-body{
+.card-bodyy{
   display: flex;
   flex-direction: column;
   align-items:center;
-  justify-content:center;
-  width: 415px;
-  height: 370px;
+  justify-content:space-between;
+  
+  width: var(--ui-width);
+  height: var(--ui-height);
+
   border-radius: var(--border-radius);
   margin: 2.4vh;
   background-color: rgb(255, 255, 255); 
@@ -126,8 +128,9 @@ body {
   flex-direction: column;
   align-items:center;
   justify-content:center;
-  width: 415px;
-  height: 370px;
+  
+  width: var(--ui-width);
+  height: var(--ui-height);
   border-radius: var(--border-radius);
   margin: 2.4vh;
   background-color: rgba(255, 255, 255, 0.178); 
@@ -138,11 +141,15 @@ body {
   width: calc(var(--img-size-multiplier)*416px);
   height: calc(var(--img-size-multiplier)*416px);
 }
-.card-text{
+.cardd-text{
   /* background-color: aqua; */
-  color: var(--font-color);;
-  padding: 0.2em;
-  margin: 0.002rem;
+  /* color: var(--font-color);; */
+  /* padding: 0.2em; */
+  margin: 0.5em;
+  max-height: 1.5em;
+  text-align: center;
+  /* word-wrap:normal; */
+  overflow-y: auto;
 }
 /* === Wrapper Styles === */
 #FileUpload {
