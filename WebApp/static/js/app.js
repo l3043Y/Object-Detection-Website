@@ -1,13 +1,37 @@
+// swap active state from element A to element B
+function swapActiveNav( elmA, elmB ){
+    if(elmA.hasClass('active') && !elmB.hasClass('active')){
+        elmA.removeClass('active');
+        elmB.addClass('active');
+    } 
+};
+// handle nav home about
+function clickHome() {
+    swapActiveNav($('#nav-about'), $('#nav-home'));
+    $('.about-container').hide('fast');
+    $('.side-div-container').fadeIn(400);
+
+}; 
+function clickAbout() {
+    swapActiveNav($('#nav-home'), $('#nav-about'));
+    $('.side-div-container').hide('fast');
+    $('.about-container').show('fast');
+}; 
 $(function(){
-    // $('#card-col-id').css("border", "3px solid red");
-    // console.log(!$('#card-col-id').children().length > 0 )
+    // render readme markdown from github
+    var options = {
+        owner:'l3043Y',
+        repo:'Object-Detection-Website'};
+    $('#readme').readme(options);
+        
+
+    // $navAbout.on("click",swapActiveNav($navHome, $navAbout));
     
 
     if( !$('#card-col-id').children().length > 0 ) {
             var emptyCard = '<div class="card-body-nth">  <p class="card-text">Nothing to show</p> </div>'
             $('.card-col').append(emptyCard)
         }
-
 
     var fileUploadSuccess = function(data){      
         var $cardContainer = $('#card-col-id');
@@ -25,8 +49,8 @@ $(function(){
         $cardContainer.prepend($cardToBeAdd);
         // Scroll & show animation 
         var $firstCard = $('.card-body').eq(0)
-        $firstCard.show(500);
-        $('.card-col').animate({scrollTop: $('.card-body').height()}, 300);
+        $firstCard.slideDown(400);
+        $('.card-col').animate({scrollTop: $('.card-body').height()}, 400);
     };
 
     var fileUploadFail = function(data){};
