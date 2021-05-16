@@ -6,23 +6,8 @@ Object detection is a computer-vision tasks that make many complex applications 
 
 
 ## Running the Project
-#### Option 1. Docker compose (Recommmanded)
-```
-docker pull l3043y/fyp-objdetweb:latest
-git clone https://github.com/l3043Y/Object-Detection-Website.git
-cd Object-Detection-Website
-docker-compose up -d
-```
-#### Option 2. Build docker image from the docker file and spawn containers
-```
-git clone https://github.com/l3043Y/Object-Detection-Website.git
-cd Object-Detection-Website
-docker build -t fyp-objdetweb:latest .
-docker run -dp 80:80 -w /FYP -v "%CD%\uploads":/FYP/uploads fyp-objdetweb
-```
-#### Option 3. Python development environment 
+#### Option 1. Python development environment (Recommmanded)
 Anaconda virtual environment is recommended to install packages.
-
 
 **Install [PyTorch](https://pytorch.org/get-started/locally/#start-locally)**
 ```
@@ -30,4 +15,18 @@ pip install -r requirements.txt
 git clone https://github.com/l3043Y/Object-Detection-Website.git
 cd Object-Detection-Website
 python main.py
+```
+#### Option 2. Docker compose 
+```
+docker pull l3043y/fyp-objdetweb:latest
+git clone https://github.com/l3043Y/Object-Detection-Website.git
+cd Object-Detection-Website
+docker-compose up -d
+```
+#### Option 3. Build docker image from the docker file and spawn containers
+```
+git clone https://github.com/l3043Y/Object-Detection-Website.git
+cd Object-Detection-Website
+docker build -t fyp-objdetweb:latest .
+docker run -dp 80:80 -w /FYP -v "%CD%\uploads":/FYP/uploads fyp-objdetweb
 ```
