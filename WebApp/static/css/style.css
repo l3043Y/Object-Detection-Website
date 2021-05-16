@@ -52,6 +52,16 @@ html, body {
   margin: 3vh;
   float: right;
 }
+
+@media only screen and (max-width: 640px) {
+  #lightMode-container {
+    display: block;
+    margin: 3vh auto;
+    width: 3vh;
+    float: none;
+  }
+}
+
 #btn-lightMode{
   font-size: 2.5em;
   background-color: rgba(255, 255, 255, 0);
