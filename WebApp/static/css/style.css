@@ -6,21 +6,66 @@
   --img-size-multiplier: 0.70;
   --border-radius: 10px;
   
+  --base-color: white;
+  --accent-color: #0c3214;
+  --text-color:black;
+
   --font-color:#0c3214;
+
   font-family: 'Montserrat', sans-serif;
   --box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
 }
-body {
-  background-color: whitesmoke;
-  background-image: linear-gradient( rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1) ), url("../images/objectdetection.svg");
-  background-attachment: fixed;
-  background-position: center;
-  border-bottom: 0px solid black;
-  height: auto;
+html, body {
   display: flex;
   justify-content:center;
   align-items: center;
   flex-direction: column;
+
+  margin:0;
+  padding:0;
+  width:100%;
+  height:100%;
+  overflow: auto;
+
+  background-image: url("../images/objectdetection.svg");
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: repeat;
+}
+#content-main-body{
+  width: 100%; 
+  min-height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.062);
+}
+
+.dark-bg{
+  background-color: rgba(50, 50, 50, 0.75) !important;
+}
+
+.dark-theme-panel{
+  background-color: rgb(32, 32, 32) !important;
+  color:#c7c7c7 !important;
+}
+
+#lightMode-container{
+  margin: 3vh;
+  float: right;
+}
+#btn-lightMode{
+  font-size: 2.5em;
+  background-color: rgba(255, 255, 255, 0);
+  
+}
+
+#lightMode-container > a:hover{
+  text-shadow: 0 0 20px #effa5e;
+  opacity: 1;
+  text-decoration: none;
+}
+#lightMode-container > a{
+  opacity: 0.5;
+  color:rgb(255, 255, 255);
 }
 
 .title-container{
@@ -32,7 +77,7 @@ body {
   width: 400px;
   padding: 10px;
   box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
-  background-color: white;
+  background-color: var(--base-color);
 
   border-radius: 10px;
   vertical-align: top;
@@ -42,9 +87,15 @@ body {
   font-family: 'Montserrat', sans-serif;
   font-size: 35px;
   text-align: center;
-  color: var(--font-color);
+  color: var(--text-color);
 }
 
+#readme > p, h2,h4, strong, code, li, a{
+  color: var(--text-color);
+}
+#readme > pre > code{
+  color: var(--text-color);
+}
 .about-container{
   display: none;
   position: relative;
@@ -58,7 +109,7 @@ body {
   padding: 20px;
   box-shadow: var(--box-shadow);
 
-  background-color: white;
+  background-color: var(--base-color);
   border-radius: 10px;
   vertical-align: top;
 }
@@ -118,7 +169,7 @@ body {
 
   border-radius: var(--border-radius);
   margin: 2.4vh;
-  background-color: rgb(255, 255, 255); 
+  background-color: var(--base-color); 
   box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22); 
   backdrop-filter: blur(5px);
 }
@@ -142,14 +193,17 @@ body {
   height: calc(var(--img-size-multiplier)*416px);
 }
 .cardd-text{
-  /* background-color: aqua; */
-  /* color: var(--font-color);; */
-  /* padding: 0.2em; */
   margin: 0.5em;
   max-height: 1.5em;
   text-align: center;
-  /* word-wrap:normal; */
+  color:var(--text-color);
   overflow-y: auto;
+}
+
+.timeStamp{
+  text-align: center;
+  margin: 0.5em;
+  color: var(--text-color);
 }
 /* === Wrapper Styles === */
 #FileUpload {
@@ -163,7 +217,7 @@ body {
   padding: 10px;
   box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
   border-radius: 10px;
-  background-color: white;
+  background-color: var(--base-color);
   width: var(--ui-width);
   height: var(--ui-height);
 
@@ -187,7 +241,7 @@ body {
   margin-top: 12px;
   line-height: 0;
   font-size: 22px;
-  color: #0c3214;
+  color: var(--text-color);
   letter-spacing: 1.5px;
 }
 .upload__button {

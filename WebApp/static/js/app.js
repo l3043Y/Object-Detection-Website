@@ -17,6 +17,37 @@ function clickAbout() {
     $('.side-div-container').hide('fast');
     $('.about-container').show('fast');
 }; 
+
+function clickLightMode(){
+    if($('#btn-lightMode').text() == '☀️'){
+        $('#btn-lightMode').text('🌘');
+
+        if(! $('#content-main-body').hasClass('dark-bg') ){
+            
+            $('#content-main-body').addClass('dark-bg');
+            $(':root').css('--base-color','rgba(70,70,70,1)');
+            $(':root').css('--text-color','rgba(200,200,200,1)');
+            // $('#nav-home > a').addClass('dark-theme-panel');
+
+            $('#lightMode-container > a:hover').css('textShadow','0 0 20px #FFFFFF');
+
+        }
+
+    } else{
+        $('#btn-lightMode').text('☀️');
+
+        if($('#content-main-body').hasClass('dark-bg') ){
+
+            $('#content-main-body').removeClass('dark-bg');
+            $(':root').css('--base-color','rgba(255,255,255,1)');
+            $(':root').css('--text-color','black');
+
+            $('#nav-home > a').removeClass('dark-theme-panel');
+
+            $('#lightMode-container > a:hover').css('textShadow','0 0 20px #effa5e');
+        }
+    }
+}
 $(function(){
     // render readme markdown from github
     var options = {
@@ -24,10 +55,6 @@ $(function(){
         repo:'Object-Detection-Website'};
     $('#readme').readme(options);
         
-
-    // $navAbout.on("click",swapActiveNav($navHome, $navAbout));
-    
-
     if( !$('#card-col-id').children().length > 0 ) {
             var emptyCard = '<div class="card-body-nth">  <p class="cardd-text">Nothing to show</p> </div>'
             $('.card-col').append(emptyCard)
@@ -42,14 +69,8 @@ $(function(){
         }
         // Add card with data
         var d = new Date();
-        var timeStamp = d.getFullYear() + '-'
-                        + d.getMonth() + '-'
-                        + d.getDay() + ' '
-                        + d.getHours() + ":" 
-                        + d.getMinutes() + ":"
-                        + d.getSeconds();
         var $cardToBeAdd =   $('<div class="card-bodyy">' +
-                            '   <div style="text-align: center;margin: 0.5em;">'+ d.toLocaleString()+'</div>' +  
+                            '   <div class="timeStamp">'+ d.toLocaleString()+'</div>' +  
                             '   <img class="card-img" src="data:image/jpg;base64, '+ data.Base64img+ '">' + 
                             '   <div class="cardd-text">'+data.ResultText+'</div>' + 
                             '</div>').hide();
