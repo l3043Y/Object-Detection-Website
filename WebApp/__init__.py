@@ -1,3 +1,4 @@
+from os.path import basename, dirname, splitext
 from flask import Flask
 
 from base64 import b64encode
@@ -9,6 +10,8 @@ import sys
 sys.path.append('YOLOv5')
 import os
 import time
+import uuid
+import json
 
 from pathlib import Path
 from PIL import Image
@@ -75,7 +78,7 @@ class YOLOv5:
     def preprocessing(self, cv2Img, half, device):
         save_dir = Path(self.user_dir)
         if self.save_img:
-            save_dir = Path(increment_path(Path(self.user_path),exist_ok=True))
+            save_dir = Path(increment_path(Path(self.user_dir),exist_ok=True))
             save_dir.mkdir(parents=True, exist_ok=True)  # make dir
         
         
@@ -129,20 +132,37 @@ class YOLOv5:
                     plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=3)
 
             # Print time (inference + NMS)
-            result_text = f'{s}Done. ({t2 - t1:.3f}s)'
+            result_text = f'{s} ({t2 - t1:.3f}s)'
             print(result_text)
+            extension = os.path.splitext(imgName)[1]
 
             if self.save_img:
-                if not cv2.imwrite(save_path, im0):
-                    raise Exception("Could not write image to: "+str(save_path))
+                get_uuid = uuid.uuid4().hex
+                save_with_json = str(save_dir /get_uuid) 
+                json_format = {
+                    "status" : "Success", 
+                    "resultText" : result_text, 
+                    "fileName" : imgName,
+                    "base64Img": "NULL"
+                }
+                
+                if not cv2.imwrite(save_with_json + extension, im0):
+                    # raise Exception("Could not write image to: "+str(save_path))
+                    print("Could not write image to: "+str(save_path))
+                else:
+                    # rename image to UUID create json file with inferace information
+                    print('get the path: '+save_path)
+                    with open( save_with_json + '.json', 'w' ) as json_file:
+                        json.dump(json_format, json_file)
 
-            extension = os.path.splitext(imgName)[1]
+            
             is_sucess , img_encoded = cv2.imencode(extension, im0)
             if is_sucess:
                 byte_im = img_encoded.tobytes()
             else:
                 print(f'>>Debug: filename={imgName}, exension={extension}')
-                raise Exception("Could not cvt to bytes: "+str(save_path))
+                # raise Exception("Could not cvt to bytes: "+str(save_path))
+                print("Could not cvt to bytes: "+str(save_path))
            
         print(f"Results saved to {save_dir}")
         print(f'Done. ({time.time() - t0:.3f}s)')
