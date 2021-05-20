@@ -27,6 +27,7 @@ function clickLightMode(){
             $('#content-main-body').addClass('dark-bg');
             $(':root').css('--base-color','rgba(70,70,70,1)');
             $(':root').css('--text-color','rgba(200,200,200,1)');
+            $('img').css('filter','brightness(75%)');
             // $('#nav-home > a').addClass('dark-theme-panel');
 
             $('#lightMode-container > a:hover').css('textShadow','0 0 20px #FFFFFF');
@@ -41,6 +42,7 @@ function clickLightMode(){
             $('#content-main-body').removeClass('dark-bg');
             $(':root').css('--base-color','rgba(255,255,255,1)');
             $(':root').css('--text-color','black');
+            $('img').css('filter','brightness(100%)');
 
             $('#nav-home > a').removeClass('dark-theme-panel');
 
