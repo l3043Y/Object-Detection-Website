@@ -28,5 +28,5 @@ docker-compose up -d
 git clone https://github.com/l3043Y/Object-Detection-Website.git
 cd Object-Detection-Website
 docker build -t fyp-objdetweb:latest .
-docker run -dp 80:80 -w /FYP -v "%CD%\uploads":/FYP/uploads fyp-objdetweb
+docker run -dp 80:80 -w /FYP -v "%CD%":/FYP/ fyp-objdetweb
 ```
