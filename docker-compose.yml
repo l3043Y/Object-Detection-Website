@@ -2,9 +2,9 @@ version: "3.7"
 
 services: 
     FYP:
-        image: fyp-objdetweb
+        image: l3043y/fyp-objdetweb
         ports:
             - 80:80
         working_dir: /FYP
         volumes: 
-            - ./uploads:/FYP/uploads
+            - .:/FYP/
