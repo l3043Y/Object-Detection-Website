@@ -36,6 +36,7 @@ $("#login-regForm").submit(function(event){
         });
     }
 });
+
 function logoutUser(){
     $.ajax({
         url: "/logout",
@@ -93,8 +94,6 @@ function alertMsg(message, alertType){
     }
     $('#alert-msg').append(bootstrapAlter);
 }
-
-
 
 //swap active page
 function hidePage($hideA){
@@ -198,6 +197,7 @@ function clickLightMode(){
         }
     }
 }
+
 //handle main ui element
 $(function(){
     // render readme markdown from github
@@ -211,7 +211,8 @@ $(function(){
             $('.card-col').append(emptyCard)
         }
 
-    var fileUploadSuccess = function(data){      
+    function fileUploadSuccess(data){ 
+        console.log(data);     
         var $cardContainer = $('#card-col-id');
         // Remove nothing card
         var $nthCard = $('.card-body-nth');
@@ -221,11 +222,15 @@ $(function(){
         // Add card with data
         var d = new Date();
         var $cardToBeAdd =   $('<div class="card-bodyy">' +
-                            '   <div class="timeStamp">'+ d.toLocaleString()+'</div>' +  
-                            '   <img class="card-img" src="data:image/jpg;base64, '+ data.Base64img+ '">' + 
-                            '   <div class="cardd-text">'+data.ResultText+'</div>' + 
+                            '   <div class="cardd-text">User: '+userName+' at '+ d.toLocaleString()+'</div>' +  
+                            '   <img class="card-img" src="data:image/jpg;base64, '+ data.base64Img+ '">' + 
+                            '   <div class="cardd-text">'+data.resultText+'</div>' + 
                             '</div>').hide();
         $cardContainer.prepend($cardToBeAdd);
+        //update user detection history
+        if(userName != 'global'){
+            updateUserData(data);
+        }
         // Scroll & show animation 
         var $firstCard = $('.card-bodyy').eq(0)
         $firstCard.slideDown(400);
@@ -244,15 +249,16 @@ $(function(){
 
         var formData = new FormData();
         formData.append("img_file", files[0]);
-
-        var req = {
+        $.ajax({
             url: "/",
             method: "post",
             processData: false,
             contentType: false,
-            data: formData
-        };
-        $.ajax(req).done(fileUploadSuccess);
+            data: formData,
+            success: function(jsonObject){
+                fileUploadSuccess(jsonObject);
+            }
+        })
     };
 
     var dropHandlerSet = {
@@ -264,16 +270,17 @@ $(function(){
     $('#clickUpload').change(function(e){
         var file = e.target.files[0];
         var formData = new FormData();
-            formData.append("img_file", file);
-
-            var req = {
-                url: "/",
-                method: "post",
-                processData: false,
-                contentType: false,
-                data: formData
-            };
-            $.ajax(req).done(fileUploadSuccess);
+        formData.append("img_file", file);
+        $.ajax({
+            url: "/",
+            method: "post",
+            processData: false,
+            contentType: false,
+            data: formData,
+            success: function(jsonObject){
+                fileUploadSuccess(jsonObject);
+            }
+        })
     });
 
 });

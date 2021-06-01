@@ -9,7 +9,7 @@ import json
 
 from pathlib import Path
 from PIL import Image
-import base64
+from base64 import b64encode
 
 import numpy as np
 import cv2
@@ -131,7 +131,7 @@ class YOLOv5:
 
         # Process detections
         result_text = ''
-        
+        result_json = ''
         for i, det in enumerate(pred):  # detections per image
         
             s, im0 = '', im0s
@@ -159,7 +159,7 @@ class YOLOv5:
             if self.save_img:
                 get_uuid = uuid.uuid4().hex
                 save_with_json = str(save_dir /get_uuid) 
-                json_format = {
+                result_json = {
                     "status" : "Success", 
                     "resultText" : result_text, 
                     "fileName" : imgName,
@@ -173,12 +173,13 @@ class YOLOv5:
                     # rename image to UUID create json file with inferace information
                     print('get the path: '+save_path)
                     with open( save_with_json + '.json', 'w' ) as json_file:
-                        json.dump(json_format, json_file)
+                        json.dump(result_json, json_file)
 
             
             is_sucess , img_encoded = cv2.imencode(extension, im0)
             if is_sucess:
-                byte_im = img_encoded.tobytes()
+                img_bytes = img_encoded.tobytes()
+                result_json["base64Img"] = b64encode(img_bytes).decode('utf-8')
             else:
                 print(f'>>Debug: filename={imgName}, exension={extension}')
                 # raise Exception("Could not cvt to bytes: "+str(save_path))
@@ -187,7 +188,7 @@ class YOLOv5:
         print(f"Results saved to {save_dir}")
         print(f'Done. ({time.time() - t0:.3f}s)')
         del pred,  im0s, img
-        return byte_im, str(result_text)
+        return result_json
         
     def YOLOv5API(self, path = None, img_base64 = None):
 
