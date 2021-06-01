@@ -163,6 +163,7 @@ class YOLOv5:
                     "status" : "Success", 
                     "resultText" : result_text, 
                     "fileName" : imgName,
+                    "UUID4hex" : save_with_json + extension,
                     "base64Img": "NULL"
                 }
                 

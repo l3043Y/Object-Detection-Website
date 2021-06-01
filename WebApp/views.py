@@ -43,12 +43,16 @@ def home():
             db.session.commit()
             print('DetImg added: '+result_json["fileName"])
 
-        print('response: '+json.dumps(result_json))
         response = jsonify(result_json)
         return response
 
     return render_template('home.html')
 
+@views.route('/update/state',methods=['POST'])
+def update_state():
+    [print(img.id) for img in current_user.det_img]
+    return jsonify({"Auth": current_user.is_authenticated,
+                    "userName": current_user.first_name})
 
 print("Initialize... model")
 Path(f'{app.config["UPLOAD_FOLDER"]}')

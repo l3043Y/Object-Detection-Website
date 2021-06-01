@@ -74,6 +74,7 @@ def sign_up():
             login_user(new_user, remember=True)
             user_json = new_user.to_json()
             msg = 'Account created!'
+            
     print(msg)        
     response = jsonify({"success" : current_user.is_authenticated, 
                         "user" : user_json,

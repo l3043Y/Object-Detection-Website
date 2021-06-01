@@ -2,6 +2,18 @@ var pageState = $('#nav-home');
 var formState = 'login';
 var userName = 'global'
 var curent_user = null;
+// update app state
+$( document ).ready( updateAppState );
+function updateAppState(){
+    $.ajax({
+        url: "/update/state",
+        type: 'POST',
+        success: function(jsonObject){
+            console.log(jsonObject);
+        }
+    });
+}
+
 // handle login and register via AJAX to Flask API
 $("#login-regForm").submit(function(event){
     event.preventDefault();
@@ -227,10 +239,6 @@ $(function(){
                             '   <div class="cardd-text">'+data.resultText+'</div>' + 
                             '</div>').hide();
         $cardContainer.prepend($cardToBeAdd);
-        //update user detection history
-        if(userName != 'global'){
-            updateUserData(data);
-        }
         // Scroll & show animation 
         var $firstCard = $('.card-bodyy').eq(0)
         $firstCard.slideDown(400);
