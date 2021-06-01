@@ -1,14 +1,8 @@
-from os.path import basename, dirname, splitext
-from flask import Flask
-
-from base64 import b64encode
-from PIL import Image
-import io
-import asyncio
-
+from os.path import basename, dirname, splitext, exists
+import os
 import sys
 sys.path.append('YOLOv5')
-import os
+
 import time
 import uuid
 import json
@@ -29,20 +23,46 @@ from YOLOv5.utils.general import check_img_size, non_max_suppression,scale_coord
 from YOLOv5.utils.plots import plot_one_box
 from YOLOv5.utils.torch_utils import select_device, time_synchronized
 
+from flask import Flask
+from flask.helpers import url_for
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager, login_manager
 
 app = Flask(__name__)
 
+db = SQLAlchemy() 
+DB_NAME = "database.db"
+
 def create_app():
     
-    app.config['SECRET KEY'] = 'SOmE SeCRet KEy'
+    app.config['SECRET_KEY'] = 'SOmE SeCRet KEy'
     app.config['UPLOAD_FOLDER'] = 'uploads'
-    
-    from .views import views
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+    db.init_app(app)
 
+    from .views import views
+    from .auth import auth
     app.register_blueprint(views,url_prefix='/')
+    app.register_blueprint(auth, url_prefix='/')
     
+    from .models import User, DetImg
+    create_database(app)
+
+    login_manager = LoginManager()
+    login_manager.login_view = 'auth.login'
+    login_manager.init_app(app)
+    
+    @login_manager.user_loader
+    def load_user(id):
+        return User.query.get(int(id))
+
     return app
-   
+
+def create_database(app):
+    if not exists('WebApp/'+ DB_NAME):
+        db.create_all(app=app)
+        print('Created Database!')
+
 class YOLOv5:
     def __init__(self, save_img = False, user_dir = 'YOLOv5_Inferance'):
         # self.half, self.names, self.colors = self.initilize()

@@ -14,7 +14,7 @@
 <body>
 
 <div id="content-main-body">
-
+  <div id="alert-msg"></div>
   <div id="lightMode-container">
     <a id="btn-lightMode" href="javascript:clickLightMode()">☀️</a>
   </div>
@@ -34,13 +34,11 @@
         <li id="nav-about" class="nav-item">
           <a class="nav-link" href="javascript:clickAbout();">About</a>
         </li>
-        
-        
       </ul>
     </nav>
-
+    
     <div class="auth-container">
-      <form id="login-regForm" method="POST" action = "/login">
+      <form id="login-regForm" method="POST">
         <!-- <h3 style="text-align:center;">Login</h3> -->
         <div class="form-group">
           <label for="email">Email Address</label>
@@ -84,14 +82,14 @@
             />
           </div>
           <div class="login-form">
-            <a class="nav-link" href="javascript:loginForm();">🡠</a>
+            <a class="nav-link" href="javascript:loginRegisterForm();">🡠</a>
           </div>
           <button type="submit" class="btn btn-dark">Register</button>
         </div>
         
         <br />
         <button id="login-bttn" type="submit" class="btn btn-light">Login</button> <!-- btn-dark-->
-        <button id="reg-bttn" type="button" onclick="registerForm()" class="btn btn-dark">Register</button>
+        <button id="reg-bttn" type="button" onclick="loginRegisterForm()" class="btn btn-dark">Register</button>
       </form>
     </div>
   </div>
