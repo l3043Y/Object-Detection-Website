@@ -1,22 +1,73 @@
-// swap active state from element A to element B
-function swapActiveNav( elmA, elmB ){
-    if(elmA.hasClass('active') && !elmB.hasClass('active')){
-        elmA.removeClass('active');
-        elmB.addClass('active');
+var pageState = $('#nav-home');
+//swap active page
+function hidePage($hideA){
+    if($hideA == $('#nav-home').attr("id") ){
+        $('.side-div-container').hide('fast');
+    }
+    if($hideA == $('#nav-about').attr("id")){
+        $('.about-container').hide('fast');
     } 
-};
+    if($hideA == $('#nav-login').attr("id")){
+        $('.auth-container').hide('fast');
+    }
+}
+function showPage($showB){
+    if($showB == $('#nav-home').attr("id")){
+        $('.side-div-container').fadeIn(400);
+    }
+    if($showB == $('#nav-about').attr("id")){
+        $('.about-container').show('fast');
+    }
+    if($showB == $('#nav-login').attr("id")){
+        $('.auth-container').show('fast');
+    }
+}
+function swapActivePage($hideA, $showB){
+    if($hideA.hasClass('active') && !$showB.hasClass('active')){
+        $hideA.removeClass('active');
+        hidePage($hideA.attr("id"));
+        $showB.addClass('active');
+        showPage($showB.attr("id"));
+        pageState = $showB;
+    }
+}
 // handle nav home about
 function clickHome() {
-    swapActiveNav($('#nav-about'), $('#nav-home'));
-    $('.about-container').hide('fast');
-    $('.side-div-container').fadeIn(400);
-
-}; 
+    if(pageState != $('#nav-home').attr("id") ){
+        swapActivePage(pageState, $('#nav-home'));
+    }
+}
 function clickAbout() {
-    swapActiveNav($('#nav-home'), $('#nav-about'));
-    $('.side-div-container').hide('fast');
-    $('.about-container').show('fast');
-}; 
+    if(pageState != $('#nav-about').attr("id") ){
+        swapActivePage(pageState, $('#nav-about'));
+    }
+}
+// handle Login
+function clickAuthentication(){
+    if(pageState != $('#nav-login').attr("id") ){
+        swapActivePage(pageState, $('#nav-login'));
+    }
+}
+// prepare registor form
+function registerForm(){
+    $('#login-bttn').hide();
+    $('.register-form').slideDown();
+    $('#login-regForm').attr("action", "/sign-up");
+
+    // $('#reg-bttn').removeAttr("onclick");
+    // $('#reg-bttn').attr("type", "submit");
+    $('#reg-bttn').hide();
+
+} 
+function loginForm(){
+    $('.register-form').slideUp();
+    $('#login-bttn').show();
+    $('#login-regForm').attr("action", "/login");
+
+    $('#reg-bttn').attr("onclick", "registerForm()");
+    $('#reg-bttn').attr("type", "button");
+    $('#reg-bttn').show();
+}
 
 function clickLightMode(){
     if($('#btn-lightMode').text() == '☀️'){

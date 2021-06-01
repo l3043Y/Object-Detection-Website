@@ -12,10 +12,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
 </head>
 <body>
-<!-- partial:index.partial.html -->
-<!-- === File Upload ===
-Design a file upload element. Is it the loading screen and icon? A progress element? Are folders being uploaded by flying across the screen like Ghostbusters? ;)  
--->
+
 <div id="content-main-body">
 
   <div id="lightMode-container">
@@ -27,16 +24,76 @@ Design a file upload element. Is it the loading screen and icon? A progress elem
     <h2 id="title-center">Object Detection Website</h2>
 
     <nav class="navbar navbar-expand-lg navbar-light justify-content-center">
-      
       <ul class="navbar-nav d-flex">
         <li id="nav-home" class="nav-item active">
           <a class="nav-link" href="javascript:clickHome();">Home</a>
         </li>
+        <li id="nav-login" class="nav-item">
+          <a class="nav-link" href="javascript:clickAuthentication();">Login</a>
+        </li>
         <li id="nav-about" class="nav-item">
           <a class="nav-link" href="javascript:clickAbout();">About</a>
         </li>
+        
+        
       </ul>
     </nav>
+
+    <div class="auth-container">
+      <form id="login-regForm" method="POST" action = "/login">
+        <!-- <h3 style="text-align:center;">Login</h3> -->
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="email"
+            placeholder="Enter email"
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            name="password"
+            placeholder="Enter password"
+          />
+        </div>
+        <div class="register-form">
+          <div class="form-group">
+            <label for="password2">Password (Confirm)</label>
+            <input
+              type="password"
+              class="form-control"
+              id="password2"
+              name="password2"
+              placeholder="Confirm password"
+            />
+          </div>
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="firstName"
+              name="firstName"
+              placeholder="Enter first name"
+            />
+          </div>
+          <div class="login-form">
+            <a class="nav-link" href="javascript:loginForm();">🡠</a>
+          </div>
+          <button type="submit" class="btn btn-dark">Register</button>
+        </div>
+        
+        <br />
+        <button id="login-bttn" type="submit" class="btn btn-light">Login</button> <!-- btn-dark-->
+        <button id="reg-bttn" type="button" onclick="registerForm()" class="btn btn-dark">Register</button>
+      </form>
+    </div>
   </div>
   
   
@@ -44,6 +101,7 @@ Design a file upload element. Is it the loading screen and icon? A progress elem
   <div class="about-container">
     <div id="readme"></div>
   </div>
+  
   
   {% block content %}
   {% endblock %}
