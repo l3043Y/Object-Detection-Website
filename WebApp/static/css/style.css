@@ -82,9 +82,8 @@ html, body {
   position: relative;
   margin: 3vh auto;
 
-  min-width: 330px;
-
-  width: 400px;
+  width:min-content;
+  min-width: 325px;
   padding: 10px;
   box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
   background-color: var(--base-color);
@@ -122,6 +121,36 @@ html, body {
   background-color: var(--base-color);
   border-radius: 10px;
   vertical-align: top;
+}
+.auth-container{
+  display: none;
+  position: relative;
+  margin: 3vh auto;
+  padding: 5%;
+
+  width: 100%;
+  height: auto;
+}
+.register-form{
+  display: none;
+}
+.login-form{
+  display: block;
+  text-align: center;
+  font-size: 1.7rem;
+  height: 1.7rem;
+  /* background-color: var(--accent-color); */
+}
+
+.form-group > .form-control {
+  background-color: #c7c7c7;
+  
+}
+.navbar-nav> .nav-item > .nav-link{
+  color: var(--text-color);
+}
+.form-group{
+  color: var(--text-color);
 }
 
 #subheading{
