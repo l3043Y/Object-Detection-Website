@@ -4,29 +4,38 @@ var userName = 'global'
 var curent_user = null;
 var userDetImg = [];
 // update app state
-$( document ).ready( getAppState(), updateAppState() );
+// $( document ).ready( getAppState(), updateAppState() );
 function getAppState(){
+    let detImg; 
     $.ajax({
         url: "/update/state",
         type: 'POST',
+        async: false,
         success: function(jsonObject){
-            if(jsonObject.auth){
-                curent_user = jsonObject.user;
-                userDetImg = jsonObject.detectImg;
-                console.log('userDetImg: '+userDetImg);
-                console.log('user: '+curent_user);
-            }
+            window.userDetImg = jsonObject.detectImg;
+            detImg = jsonObject.detectImg;
+            window.curent_user = jsonObject.user;
+            updateAppState(jsonObject);
         }
     });
-    
+    return detImg
 }
-function updateAppState(){
+function updateAppState(jsonObject){
+    if(typeof jsonObject !== 'undefined' && jsonObject.auth){
+        curent_user = jsonObject.user;
+        window.userDetImg = jsonObject.detectImg;
+        console.log('updateAppState: '+window.userDetImg);
+        console.log('updateAppState: '+curent_user);
+    }
+
+    var $cardContainer = $('#card-col-id');
     // check authentication
     if(userName != 'global' && curent_user != null){
         // hide login button
         if($('#nav-login').is(":visible")) {
             $('#nav-login').hide();
         }
+
 
         
     } else{
@@ -88,6 +97,21 @@ function logoutUser(){
     });
 }
 
+function addUserCard(){
+    var $cardContainer = $('#card-col-id');
+    $cardContainer.empty();
+
+    console.log('window.userDet: ---'+JSON.stringify(userDetImg));
+    for(data in userDetImg){
+        console.log(userDetImg[data]);
+        addCard(userDetImg[data]);
+    }
+    if( !$('#card-col-id').children().length > 0 ) {
+        var emptyCard = '<div class="card-body-nth">  <p class="cardd-text">Nothing to show</p> </div>'
+        $('.card-col').append(emptyCard)
+    }
+    
+}
 function handleAuthRespond(jsonObject){
     if(jsonObject.user == 'global'){
         alertMsg(jsonObject.msg, false);
@@ -95,6 +119,12 @@ function handleAuthRespond(jsonObject){
         $('#user-bar').remove();
         userName = 'global';
         curent_user = null;
+        var $cardContainer = $('#card-col-id');
+        $cardContainer.empty();
+        if( !$('#card-col-id').children().length > 0 ) {
+            var emptyCard = '<div class="card-body-nth">  <p class="cardd-text">Nothing to show</p> </div>'
+            $('.card-col').append(emptyCard)
+        }
     }
 
     if(jsonObject.success && jsonObject.user != 'global'){
@@ -102,11 +132,16 @@ function handleAuthRespond(jsonObject){
         userName = jsonObject.user.firstName
         curent_user = jsonObject;
         alertMsg('Welcome! '+userName, curent_user.success);
+        addUserCard(getAppState());
+        $('.card-bodyy').show();
         clickHome();
+        // getAppState();
+        
     }else{
         console.log('NOT AUTHENTICATED');
         if(curent_user != null){
             alertMsg(curent_user.msg, curent_user.success);
+            
         }
         userName = 'global';
         curent_user = null;
@@ -240,7 +275,16 @@ function clickLightMode(){
         }
     }
 }
-
+function addCard(data){
+    var $cardContainer = $('#card-col-id');
+    var d = new Date();
+    var $cardToBeAdd =   $('<div class="card-bodyy">' +
+                        '   <div class="cardd-text">User: '+userName+' at '+ d.toLocaleString()+'</div>' +  
+                        '   <img class="card-img" src="data:image/jpg;base64, '+ data.base64Img+ '">' + 
+                        '   <div class="cardd-text">'+data.resultText+'</div>' + 
+                        '</div>').hide();
+    $cardContainer.prepend($cardToBeAdd);
+}
 //handle main ui element
 $(function(){
     // render readme markdown from github
@@ -262,13 +306,8 @@ $(function(){
             $nthCard.remove();
         }
         // Add card with data
-        var d = new Date();
-        var $cardToBeAdd =   $('<div class="card-bodyy">' +
-                            '   <div class="cardd-text">User: '+userName+' at '+ d.toLocaleString()+'</div>' +  
-                            '   <img class="card-img" src="data:image/jpg;base64, '+ data.base64Img+ '">' + 
-                            '   <div class="cardd-text">'+data.resultText+'</div>' + 
-                            '</div>').hide();
-        $cardContainer.prepend($cardToBeAdd);
+        addCard(data);
+        
         // Scroll & show animation 
         var $firstCard = $('.card-bodyy').eq(0)
         $firstCard.slideDown(400);

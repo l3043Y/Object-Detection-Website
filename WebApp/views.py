@@ -1,6 +1,8 @@
 import json
 from WebApp.models import DetImg
-from os.path import basename
+from os.path import basename, isfile
+import ntpath, os
+
 from pathlib import Path
 from flask import Blueprint, render_template, request, jsonify
 from flask.helpers import make_response
@@ -55,15 +57,25 @@ def update_state():
                     "detectImg": [] }
 
     if current_user.is_authenticated:
-        [print(img.image_filename) for img in current_user.det_img]
-        [print(img.to_json()) for img in current_user.det_img]
+        # [print(img.image_filename) for img in current_user.det_img]
+        # [print(img.to_json()) for img in current_user.det_img]
         json_object["auth"] = True
         json_object["user"] = current_user.to_json()
+        detect_img_json = []
         try:
-            json_object["detectImg"] = [img.image_filename for img in current_user.det_img]
+            json_files_path = [path_to_json(img.image_filename) for img in current_user.det_img]
+            for json_path in json_files_path:
+                if isfile(json_path):
+                    with open(json_path,) as json_string:
+                        detect_img_json.append(json.loads(json_string.read()))
+                else:
+                    print(json_path,isfile(json_path))
         except Exception as e:
             print("ERR: ", e.__class__, "occurred.")
-    print( 'updateState: ',json.dumps(json_object))
+        
+        json_object["detectImg"] = json.loads(json.dumps(detect_img_json))
+
+    # print( 'updateState: ',str(json.dumps(json_object))[:500])
     return jsonify(json_object)
 
 print("Initialize... model")
@@ -78,3 +90,8 @@ def detect(save_path):
         result_json= yolo.inferance(cv2Img, model, device, half, names, colors, imgName = basename(save_path))
 
     return result_json
+
+def path_to_json(img_path):
+    abs_path = os.getcwd()+'/'+img_path
+    head, file_extension = os.path.splitext(abs_path)
+    return head + '.json'
