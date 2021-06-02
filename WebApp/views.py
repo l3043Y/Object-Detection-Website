@@ -36,7 +36,7 @@ def home():
         result_json = detect(save_path)
 
         if(current_user.is_authenticated):
-            new_det = DetImg(image_filename = result_json["fileName"],
+            new_det = DetImg(image_filename = result_json["UUID4hex"],
                             result_text = result_json["resultText"],
                             user_id =current_user.id)
             db.session.add(new_det)
@@ -48,11 +48,23 @@ def home():
 
     return render_template('home.html')
 
-@views.route('/update/state',methods=['POST'])
+@views.route('/update/state',methods=['POST', 'GET'])
 def update_state():
-    [print(img.id) for img in current_user.det_img]
-    return jsonify({"Auth": current_user.is_authenticated,
-                    "userName": current_user.first_name})
+    json_object = {"auth": False,
+                    "user": "global",
+                    "detectImg": [] }
+
+    if current_user.is_authenticated:
+        [print(img.image_filename) for img in current_user.det_img]
+        [print(img.to_json()) for img in current_user.det_img]
+        json_object["auth"] = True
+        json_object["user"] = current_user.to_json()
+        try:
+            json_object["detectImg"] = [img.image_filename for img in current_user.det_img]
+        except Exception as e:
+            print("ERR: ", e.__class__, "occurred.")
+    print( 'updateState: ',json.dumps(json_object))
+    return jsonify(json_object)
 
 print("Initialize... model")
 Path(f'{app.config["UPLOAD_FOLDER"]}')
@@ -64,6 +76,5 @@ def detect(save_path):
     # img_bytes, result_text, _ = YOLOv5API(path=save_path,save_img=False,save_path=str(save_dir))
     with torch.no_grad():
         result_json= yolo.inferance(cv2Img, model, device, half, names, colors, imgName = basename(save_path))
-
 
     return result_json

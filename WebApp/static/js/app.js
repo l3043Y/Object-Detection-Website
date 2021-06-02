@@ -2,22 +2,52 @@ var pageState = $('#nav-home');
 var formState = 'login';
 var userName = 'global'
 var curent_user = null;
+var userDetImg = [];
 // update app state
-$( document ).ready( updateAppState );
-function updateAppState(){
+$( document ).ready( getAppState(), updateAppState() );
+function getAppState(){
     $.ajax({
         url: "/update/state",
         type: 'POST',
         success: function(jsonObject){
-            console.log(jsonObject);
+            if(jsonObject.auth){
+                curent_user = jsonObject.user;
+                userDetImg = jsonObject.detectImg;
+                console.log('userDetImg: '+userDetImg);
+                console.log('user: '+curent_user);
+            }
+        }
+    });
+    
+}
+function updateAppState(){
+    // check authentication
+    if(userName != 'global' && curent_user != null){
+        // hide login button
+        if($('#nav-login').is(":visible")) {
+            $('#nav-login').hide();
+        }
+
+        
+    } else{
+        // hide user bar 
+        if($('#user-bar').is(":visible")){
+            $('#user-bar').remove();
+        }
+    }
+}
+function checkIfFileLoaded(fileName) {
+    $.get(fileName, function(data, textStatus) {
+        if (textStatus == "success") {
+            // execute a success code
+            console.log("file loaded!");
         }
     });
 }
-
+/* ---------------------------------AUTHENTICATION UNIT-------------------------------*/
 // handle login and register via AJAX to Flask API
 $("#login-regForm").submit(function(event){
     event.preventDefault();
-    console.log(formState);
     var myform = document.getElementById("login-regForm");
     var fd = new FormData(myform );
     if(formState == 'login'){
@@ -31,7 +61,6 @@ $("#login-regForm").submit(function(event){
             success: function(jsonObject){
                 handleAuthRespond(jsonObject);
             }
-            
         });
     }
     else if(formState == 'register'){
@@ -48,7 +77,7 @@ $("#login-regForm").submit(function(event){
         });
     }
 });
-
+// handle logout
 function logoutUser(){
     $.ajax({
         url: "/logout",
@@ -60,8 +89,6 @@ function logoutUser(){
 }
 
 function handleAuthRespond(jsonObject){
-    console.log('SUCCESS');
-    console.log(jsonObject);
     if(jsonObject.user == 'global'){
         alertMsg(jsonObject.msg, false);
         $('#nav-login').show();
@@ -74,17 +101,44 @@ function handleAuthRespond(jsonObject){
         console.log('AUTHENTICATED');
         userName = jsonObject.user.firstName
         curent_user = jsonObject;
-        // alert('Welcome! '+userName);
         alertMsg('Welcome! '+userName, curent_user.success);
         clickHome();
-        $('#nav-login').hide();
     }else{
-        alertMsg(curent_user.msg, curent_user.success);
+        console.log('NOT AUTHENTICATED');
+        if(curent_user != null){
+            alertMsg(curent_user.msg, curent_user.success);
+        }
         userName = 'global';
         curent_user = null;
     }
+    updateAppState();
+    getAppState();
 }
-// alert message
+
+// handle Login
+function clickAuthentication(){
+    if(pageState != $('#nav-login').attr("id") ){
+        swapActivePage(pageState, $('#nav-login'));
+    }
+}
+// prepare registor form
+function loginRegisterForm(){
+    if(formState == 'login'){
+        $('#login-bttn').hide();
+        $('#reg-bttn').hide();
+
+        $('.register-form').slideDown();
+        formState = 'register';
+    }
+    else if(formState == 'register'){
+        $('#login-bttn').show();
+        $('#reg-bttn').show();
+
+        $('.register-form').slideUp();
+        formState = 'login';
+    }
+}
+/* ---------------------------------USER BAR ALERT UI-------------------------------*/
 function alertMsg(message, alertType){
     var bootstrapAlter = ''
     if(alertType){
@@ -106,7 +160,7 @@ function alertMsg(message, alertType){
     }
     $('#alert-msg').append(bootstrapAlter);
 }
-
+/* ---------------------------------NAV BAR UI-------------------------------*/
 //swap active page
 function hidePage($hideA){
     if($hideA == $('#nav-home').attr("id") ){
@@ -148,29 +202,6 @@ function clickHome() {
 function clickAbout() {
     if(pageState != $('#nav-about').attr("id") ){
         swapActivePage(pageState, $('#nav-about'));
-    }
-}
-// handle Login
-function clickAuthentication(){
-    if(pageState != $('#nav-login').attr("id") ){
-        swapActivePage(pageState, $('#nav-login'));
-    }
-}
-// prepare registor form
-function loginRegisterForm(){
-    if(formState == 'login'){
-        $('#login-bttn').hide();
-        $('#reg-bttn').hide();
-
-        $('.register-form').slideDown();
-        formState = 'register';
-    }
-    else if(formState == 'register'){
-        $('#login-bttn').show();
-        $('#reg-bttn').show();
-
-        $('.register-form').slideUp();
-        formState = 'login';
     }
 }
 
@@ -224,7 +255,6 @@ $(function(){
         }
 
     function fileUploadSuccess(data){ 
-        console.log(data);     
         var $cardContainer = $('#card-col-id');
         // Remove nothing card
         var $nthCard = $('.card-body-nth');
@@ -243,6 +273,8 @@ $(function(){
         var $firstCard = $('.card-bodyy').eq(0)
         $firstCard.slideDown(400);
         $('.card-col').animate({scrollTop: $('.card-bodyy').height()}, 400);
+        //update app data
+        getAppState();
     };
 
     var fileUploadFail = function(data){};

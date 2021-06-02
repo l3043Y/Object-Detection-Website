@@ -151,67 +151,41 @@ class YOLOv5:
                     label = f'{names[int(cls)]} {conf:.2f}'
                     plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=3)
 
-            # Print time (inference + NMS)
+            # SAVING JSON
             result_text = f'{s} ({t2 - t1:.3f}s)'
-            print(result_text)
             extension = os.path.splitext(imgName)[1]
+            get_uuid = uuid.uuid4().hex
+            save_with_json = str(save_dir /get_uuid) 
 
-            if self.save_img:
-                get_uuid = uuid.uuid4().hex
-                save_with_json = str(save_dir /get_uuid) 
-                result_json = {
+            result_json = {
                     "status" : "Success", 
                     "resultText" : result_text, 
                     "fileName" : imgName,
                     "UUID4hex" : save_with_json + extension,
-                    "base64Img": "NULL"
-                }
-                
-                if not cv2.imwrite(save_with_json + extension, im0):
-                    # raise Exception("Could not write image to: "+str(save_path))
-                    print("Could not write image to: "+str(save_path))
-                else:
-                    # rename image to UUID create json file with inferace information
-                    print('get the path: '+save_path)
-                    with open( save_with_json + '.json', 'w' ) as json_file:
-                        json.dump(result_json, json_file)
-
+                    "base64Img": "NULL"}
             
+            # Encode b64
             is_sucess , img_encoded = cv2.imencode(extension, im0)
             if is_sucess:
                 img_bytes = img_encoded.tobytes()
                 result_json["base64Img"] = b64encode(img_bytes).decode('utf-8')
             else:
                 print(f'>>Debug: filename={imgName}, exension={extension}')
-                # raise Exception("Could not cvt to bytes: "+str(save_path))
                 print("Could not cvt to bytes: "+str(save_path))
-           
+
+            # Save Image file
+            if self.save_img:
+                if not cv2.imwrite(save_with_json + extension, im0):
+                    print("Could not write image to: "+str(save_path))
+                else:
+                    print('get the path: '+save_path)
+                    with open( save_with_json + '.json', 'w' ) as json_file:
+                        json.dump(result_json, json_file)
+
+        # Print time (inference + NMS)
+        print(result_text)
         print(f"Results saved to {save_dir}")
         print(f'Done. ({time.time() - t0:.3f}s)')
         del pred,  im0s, img
         return result_json
-        
-    def YOLOv5API(self, path = None, img_base64 = None):
-
-        if img_base64 == None and path != None:
-            try:
-                _ = Image.open(path)
-            except IOError:
-                raise Exception(f'>>> NOT IMAGE FILE: {path}')
-            
-            fileName = Path(path).name
-            img = cv2.imread(path)
-                
-        elif img_base64 != None and path == None:
-            fileName = 'base64.jpg'
-            im_bytes = base64.b64decode(img_base64)
-            im_arr = np.frombuffer(im_bytes, dtype=np.uint8)  # im_arr is one-dim Numpy array
-            img = cv2.imdecode(im_arr, flags=cv2.IMREAD_COLOR)
-        else:
-            raise Exception(f'>>> Incorrect argument path={path}, img_base64={img_base64}')
-        
-        # with torch.no_grad():
-            # byte_im, result_text = self.inferance(img, fileName)
-   
-        return byte_im, result_text, fileName
 
