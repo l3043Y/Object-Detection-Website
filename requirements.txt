@@ -1,6 +1,8 @@
 # pip install -r requirements.txt
 # flask micro framework
 flask
+Flask-SQLAlchemy
+Flask-Login
 # base ----------------------------------------
 Cython
 matplotlib>=3.2.2
