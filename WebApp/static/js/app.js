@@ -93,6 +93,7 @@ function logoutUser(){
         type: 'POST',
         success: function(jsonObject){
             handleAuthRespond(jsonObject);
+            loginRegisterForm();
         }
     });
 }
