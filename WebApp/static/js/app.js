@@ -93,7 +93,13 @@ function logoutUser(){
         type: 'POST',
         success: function(jsonObject){
             handleAuthRespond(jsonObject);
-            loginRegisterForm();
+            if(formState == 'register'){
+                $('#login-bttn').show();
+                $('#reg-bttn').show();
+        
+                $('.register-form').slideUp();
+                formState = 'login';
+            }
         }
     });
 }

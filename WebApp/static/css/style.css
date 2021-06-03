@@ -53,7 +53,7 @@ html, body {
   float: right;
 }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 600px) {
   #lightMode-container {
     display: block;
     margin: 3vh auto;
@@ -166,7 +166,48 @@ html, body {
   box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22); 
   backdrop-filter: blur(5px);
 }
+/*---------------------------------MAIN UI-------------------------*/
+@media only screen and (max-width: 1000px){
+  .wrapper{
+    width: 325px !important;
+    height: auto !important;
+  }
+  .upload > p {
+    display: none !important;
+  }
+  .upload{
+    border: none !important;
+  }
+  .upload__button{
+    display: flex;
+    width: auto;
+    height: auto;
+    align-items: center;
+    justify-items: center;
+    
+    margin: 0.1rem !important;
+  }
+  .upload__button > label{
+    display: block;
+    width: fit-content;
+    margin: auto;
+    text-align: center;
+  }
+  .card-col{
+    width: 100%;
+  }
+  .card-bodyy{
+    --img-size-multiplier: 0.6;
+    width: 325px !important;
+    height: 325px !important;
+  }
+  .card-body-nth{
+    width: 325px !important;
+    height: 325px !important;
+  }
 
+  
+}
 .side-div-container{ 
   display: flex;
   flex-direction: row;
